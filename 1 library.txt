@@ -94,30 +94,35 @@ insert into book_lending values(4, 11, 101,'2017-03-15','2017-07-15');
 insert into book_lending values(1, 11, 104,'2017-04-12','2017-05-12');
 
 -- Queries
--- 1
+-- 1 Retrieve details of all books in the library id, title, name of publisher, authors, 
+number of copies in each Programme, etc.
 
 select B.BOOK_ID, B.TITLE, B.PUBLISHER_NAME, A.AUTHOR_NAME,C.NO_OF_COPIES, L.BRANCH_ID
 from book B, book_authors A, book_copies C, library_branch L
 where B.BOOK_ID=A.BOOK_ID AND B.BOOK_ID=C.BOOK_ID AND L.BRANCH_ID=C.BRANCH_ID;
 
--- 2
+-- 2 Get the particulars of borrowers who have borrowed more than 3 books, but from 
+Jan 2017 to Jun 2017
 
 select CARD_NO from book_lending
 where DATE_OUT BETWEEN '2017-01-01' AND '2017-07-01'
 group BY CARD_NO having count(*)>3;
 
--- 3
+-- 3 Delete a book in BOOK table. Update the contents of other tables to reflect this data 
+manipulation operation.
 
 delete from book where BOOK_ID=3;
 select * from book;
 
--- 4
+-- 4 Partition the BOOK table based on year of publication. Demonstrate its working 
+with a simple query.
 
 create view V_PUBLICATION as
 select PUB_YEAR from book;
 select * from V_PUBLICATION;
 
--- 5
+-- 5 Create a view of all books and its number of copies that are currently available in 
+the Library.
 
 create view V_BOOK as
 select B.BOOK_ID, B.TITLE, C.NO_OF_COPIES
