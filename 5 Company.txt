@@ -115,7 +115,7 @@ insert into works_on values(4, 'RNSISE01', 106);
 insert into works_on values(10, 'RNSIT01', 107);
 
 -- Queries
--- 1
+-- 1 Make a list of all project numbers for projects that involve an employee whose last name is scott either as a worker or as a manager of dept that controls the proj
 
 (select distinct P.PNo
 from project P , employee E , works_on W
@@ -125,18 +125,19 @@ from project P1 , employee E1 , department D
 where E1.LNAME ='SCOTT'
 and D.DNO = P1.DNO and D.MGRSSN = E1.SSN);
 
--- 2
+-- 2 show the resulting salaries if every employee wotking on the iot project is given a 10 percent raise.
 
 select E.FNAME, E.LNAME, E.SSN, (E.SALARY * 1.1) as NEW_SALARY
 from employee E, project P, works_on W
 where P.PNAME = 'IOT' and E.SSN = W.SSN and W.PNO = P.PNO;
 
--- 3
+-- 3 find the sum of all the salaries of all employees of the accounts dept as well as the maximum salary, the minimum salary, and the average salary in this department 
 
 select  sum(E.SALARY), min(E.SALARY), max(E.SALARY), avg(E.SALARY)
 from department D , employee E where D.DNAME = 'ACCOUNTS';
 
--- 4
+-- 4 Retrieve the name of each employee who works on all the projects Controlled by 
+department number 5 (use NOT EXISTS operator).
 
 select E.FNAME ,E.LNAME from employee E
 where not exists((select P.PNO
@@ -150,10 +151,11 @@ select FNAME,LNAME
 from employee
 where LNAME='H';
 
--- 5
+-- 5 For each department that has more than five employees, retrieve the department 
+number and the number of its employees who are making more than Rs. 6, 00,000.
 
 select DNO , count(*)
 from employee
-where SALARY > 60000  and DNO in(select E.DNO
+where SALARY > 600000  and DNO in(select E.DNO
 from employee E group by E.DNO
 having count(*) > 5) group by DNO;
