@@ -195,5 +195,3 @@ else 'Weak' end) as cat
 from student S, iamarks IA, class C , semsec SS
 where S.USN = IA.USN and SS.SSID = IA.SSID and SS.Sem = 8
 and (SS.Sec = 'A' or SS.Sec = 'B' or SS.Sec = 'C');
-
--- end of execution
