@@ -50,20 +50,21 @@ insert into orders values(54, 550, '2017-03-09', 12, 2000);
 
 -- Queries
 
--- 1
+-- 1 Count the customers with grades above Bangalore's average.
 
 select count(*) from customer
 where GRADE>(select avg(GRADE)
 from customer where city='BANGALORE');
 
--- 2
+-- 2 Find the name and numbers of all salesmen who had more than one customer.
 
 select SALESMAN_ID, NAME
 from salesman a
 where 1<(select count(*)
 from customer where SALESMAN_ID=a.SALESMAN_ID);
 
--- 3
+-- 3 List all salesaman and indicate those who have and dont have customers in  their 
+cities (Use UNION operation.)
 
 select salesman.SALESMAN_ID, NAME, CUST_NAME, COMMISSION
 from salesman, customer
@@ -73,7 +74,8 @@ from salesman
 where not city = any (select city from customer)
 order by 2 desc;
 
--- 4
+-- 4 Create a view that finds the salesman who has the customer with the highest order 
+of a day.
 
 create view newsalesman as
 select b.ORD_DATE,a.SALESMAN_ID,a.NAME
@@ -82,7 +84,8 @@ where a.SALESMAN_ID=b.SALESMAN_ID
 and b.PURCHASE_AMT=(select max(PURCHASE_AMT) from orders c where c.ORD_DATE=b.ORD_DATE);
 select * from newsalesman;
 
--- 5
+-- 5 Demonstrate the DELETE operation by removing salesman with id 1000. All his 
+orders must also be deleted.
 
 delete from salesman where SALESMAN_ID=1000;
 select * from salesman;
