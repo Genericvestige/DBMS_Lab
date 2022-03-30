@@ -86,5 +86,3 @@ select * from newsalesman;
 
 delete from salesman where SALESMAN_ID=1000;
 select * from salesman;
-
--- end of execution
