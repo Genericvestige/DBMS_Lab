@@ -1,0 +1,90 @@
+-- Orders Database
+
+create database r2;
+use r2;
+
+-- Table Creations
+
+create table salesman(
+    SALESMAN_ID integer primary key,
+    NAME varchar(20),
+    CITY varchar(20),
+    COMMISSION varchar(20)
+);
+
+create table customer(
+    CUSTOMER_ID integer primary key,
+    CUST_NAME varchar(20),
+    CITY varchar(20),
+    GRADE integer,
+    SALESMAN_ID integer references salesman (SALESMAN_ID) on delete set null
+);
+
+create table orders(
+    ORD_NO integer primary key,
+    PURCHASE_AMT float(10,2),
+    ORD_DATE date,
+    SALESMAN_ID integer references salesman (SALESMAN_ID) on delete cascade,
+    CUSTOMER_ID integer references customer (CUSTOMER_ID) on delete cascade
+);
+
+-- Table Insertions
+
+insert into salesman values(1000,'JOHN','BANGALORE','25%');
+insert into salesman values(2000,'RAVI','BANGALORE','20%');
+insert into salesman values(3000,'KUMAR','MYSORE','15%');
+insert into salesman values(4000,'SMITH','DELHI','30%');
+insert into salesman values(5000,'HARSHA','HYDRABAD','15%');
+
+insert into customer values(10,'PREETHI','BANGALORE',100, 1000);
+insert into customer values(11,'VIVEK','MANGALORE',300, 1000);
+insert into customer values(12,'BHASKAR','CHENNAI',400, 2000);
+insert into customer values(13,'CHETHAN','BANGALORE',200, 2000);
+insert into customer values(14,'MAMATHA','BANGALORE',400, 3000);
+
+insert into orders values(50, 5000,'2017-05-04', 10, 1000);
+insert into orders values(51, 450, '2017-01-20', 10, 2000);
+insert into orders values(52, 1000,'2017-02-24', 13, 2000);
+insert into orders values(53, 3500,'2017-04-13', 14, 3000);
+insert into orders values(54, 550, '2017-03-09', 12, 2000);
+
+-- Queries
+
+-- 1
+
+select count(*) from customer
+where GRADE>(select avg(GRADE)
+from customer where city='BANGALORE');
+
+-- 2
+
+select SALESMAN_ID, NAME
+from salesman a
+where 1<(select count(*)
+from customer where SALESMAN_ID=a.SALESMAN_ID);
+
+-- 3
+
+select salesman.SALESMAN_ID, NAME, CUST_NAME, COMMISSION
+from salesman, customer
+where salesman.city = customer.city union
+select SALESMAN_ID, NAME, 'NO MATCH', COMMISSION
+from salesman
+where not city = any (select city from customer)
+order by 2 desc;
+
+-- 4
+
+create view newsalesman as
+select b.ORD_DATE,a.SALESMAN_ID,a.NAME
+from salesman a,orders b
+where a.SALESMAN_ID=b.SALESMAN_ID
+and b.PURCHASE_AMT=(select max(PURCHASE_AMT) from orders c where c.ORD_DATE=b.ORD_DATE);
+select * from newsalesman;
+
+-- 5
+
+delete from salesman where SALESMAN_ID=1000;
+select * from salesman;
+
+-- end of execution

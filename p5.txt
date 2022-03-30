@@ -1,0 +1,161 @@
+-- Company Database
+
+create database r5;
+use r5;
+
+-- Table Creations
+
+create table department(
+    DNO varchar(5) primary key,
+    DNAME varchar(20),
+    MGRSTARTDATE date
+);
+
+create table employee(
+    SSN varchar(20) primary key,
+    FNAME varchar(20),
+    LNAME varchar(20),
+    ADDRESS varchar(20),
+    SEX char(1),
+    SALARY integer,
+    SUPERSSN varchar(20) references employee(SSN),
+    DNO varchar(5) references department(DNO)
+);
+
+alter table department add MGRSSN varchar(20) references employee(SSN);
+
+create table dlocation(
+    DLOC varchar(20),
+    DNO varchar(5) references department(DNO)
+);
+
+create table project(
+    PNO integer primary key,
+    PNAME varchar(20),
+    PLOCATION varchar(20),
+    DNO varchar(5) references department(DNO)
+);
+
+create table works_on(
+    HOURS integer,
+    SSN varchar(20) references employee(SSN),
+    PNO integer references project(PNO)
+);
+
+-- Table Insertions
+
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSECE01','JOHN','SCOTT','BANGALORE','M', 450000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE01','RAHUL','H','BANGALORE','M', 500000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE02','PRATHAP','M','BANGALORE','M', 700000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE03','NAVEEN','SCOTT','MYSORE','M', 500000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE04','PAVAN','D','MANGALORE','M', 650000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE05','VIJAY','MALYA','MYSORE','M', 450000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSCSE06','NEHA','S','BANGALORE','F', 800000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSACC01','APARNA','P','MANGALORE','F', 350000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSACC02','SANTHOSH','KUMAR','MANGALORE','M', 300000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSISE01','CHANDU','S','MYSORE','F', 600000);
+insert into employee(SSN, FNAME, LNAME, ADDRESS, SEX, SALARY) values('RNSIT01','ABHI','K','BANGALORE','M', 500000);
+
+
+insert into department values('1','ACCOUNTS','01-JAN-01','RNSACC02');
+insert into department values('2','IT','01-AUG-16','RNSIT01');
+insert into department values('3','ECE','01-JUN-08','RNSECE01');
+insert into department values('4','ISE','01-AUG-15','RNSISE01');
+insert into department values('5','CSE','01-JUN-02','RNSCSE05');
+
+
+update employee set SUPERSSN=NULL,  DNO='3' where SSN='RNSECE01';
+update employee set SUPERSSN='RNSCSE02', DNO='5' where SSN='RNSCSE01';
+update employee set SUPERSSN='RNSCSE03', DNO='5' where SSN='RNSCSE02';
+update employee set SUPERSSN='RNSCSE04', DNO='5' where SSN='RNSCSE03';
+update employee set DNO='5', SUPERSSN='RNSCSE05' where SSN='RNSCSE04';
+update employee set DNO='5', SUPERSSN='RNSCSE06' where SSN='RNSCSE05';
+update employee set DNO='5', SUPERSSN=NULL where SSN='RNSCSE06';
+update employee set DNO='1', SUPERSSN='RNSACC02' where SSN='RNSACC01';
+update employee set DNO='1', SUPERSSN=NULL where SSN='RNSACC02';
+update employee set DNO='4', SUPERSSN=NULL where SSN='RNSISE01';
+update employee set DNO='2', SUPERSSN=NULL where SSN='RNSIT01';
+update employee set DNO='5', SUPERSSN='RNSCSE06' where SSN='RNSCSE05';
+update employee set DNO='5', SUPERSSN=NULL where SSN='RNSCSE06';
+update employee set DNO='1', SUPERSSN='RNSACC02' where SSN='RNSACC01';
+update employee set DNO='1', SUPERSSN=NULL where SSN='RNSACC02';
+update employee set DNO='4', SUPERSSN=NULL where SSN='RNSISE01';
+update employee set DNO='2', SUPERSSN=NULL where SSN='RNSIT01';
+
+
+insert into dlocation values('BANGALORE', '1');
+insert into dlocation values('BANGALORE', '2');
+insert into dlocation values('BANGALORE', '3');
+insert into dlocation values('MANGALORE', '4');
+insert into dlocation values('MANGALORE', '5');
+
+
+insert into project values(100,'IOT','BANGALORE','5');
+insert into project values(101,'CLOUD','BANGALORE','5');
+insert into project values(102,'BIGDATA','BANGALORE','5');
+insert into project values(103,'SENSORS','BANGALORE','3');
+insert into project values(104,'BANK MANAGEMENT','BANGALORE','1');
+insert into project values(105,'SALARY MANAGEMENT','BANGALORE','1');
+insert into project values(106,'OPENSTACK','BANGALORE','4');
+insert into project values(107,'SMART CITY','BANGALORE','2');
+
+
+insert into works_on values(4, 'RNSCSE01', 100);
+insert into works_on values(6, 'RNSCSE01', 101);
+insert into works_on values(8, 'RNSCSE01', 102);
+insert into works_on values(10,'RNSCSE02', 100);
+insert into works_on values(3, 'RNSCSE04', 100);
+insert into works_on values(4, 'RNSCSE05', 101);
+insert into works_on values(5, 'RNSCSE06', 102);
+insert into works_on values(6, 'RNSCSE03', 102);
+insert into works_on values(7, 'RNSECE01', 103);
+insert into works_on values(5, 'RNSACC01', 104);
+insert into works_on values(6, 'RNSACC02', 105);
+insert into works_on values(4, 'RNSISE01', 106);
+insert into works_on values(10, 'RNSIT01', 107);
+
+-- Queries
+-- 1
+
+(select distinct P.PNo
+from project P , employee E , works_on W
+WHERE E.LNAME = 'SCOTT' and E.SSN = W.SSN and W.PNO = P.PNO)
+union(select distinct P1.PNO
+from project P1 , employee E1 , department D
+where E1.LNAME ='SCOTT'
+and D.DNO = P1.DNO and D.MGRSSN = E1.SSN);
+
+-- 2
+
+select E.FNAME, E.LNAME, E.SSN, (E.SALARY * 1.1) as NEW_SALARY
+from employee E, project P, works_on W
+where P.PNAME = 'IOT' and E.SSN = W.SSN and W.PNO = P.PNO;
+
+-- 3
+
+select  sum(E.SALARY), min(E.SALARY), max(E.SALARY), avg(E.SALARY)
+from department D , employee E where D.DNAME = 'ACCOUNTS';
+
+-- 4
+
+select E.FNAME ,E.LNAME from employee E
+where not exists((select P.PNO
+from project P where P.DNO = 5)
+minus(select W.PNO
+from works_on W where W.SSN = E.SSN));
+
+-- equivalent query
+
+select FNAME,LNAME
+from employee
+where LNAME='H';
+
+-- 5
+
+select DNO , count(*)
+from employee
+where SALARY > 60000  and DNO in(select E.DNO
+from employee E group by E.DNO
+having count(*) > 5) group by DNO;
+
+-- end of execution

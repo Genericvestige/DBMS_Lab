@@ -1,0 +1,199 @@
+-- College Database
+
+create database r4;
+use r4;
+
+-- Table Creations
+
+create table student(
+    USN varchar(10) primary key,
+    SNAME varchar(25),
+    ADDRESS varchar(25),
+    PHONE integer,
+    GENDER varchar(10)
+);
+
+create table semsec(
+    SSID varchar(5) primary key,
+    SEM integer,
+    SEC varchar(10)
+);
+
+create table class(
+    USN varchar(10) references student(USN),
+    SSID varchar(5) references semsec(SSID)
+);
+
+create table subject(
+    SUBCODE varchar(8) primary key,
+    TITLE varchar(20),
+    SEM integer,
+    CREDITS integer
+);
+
+create table iamarks(
+    USN varchar(10) references student(USN),
+    SUBCODE varchar(8) references subject(SUBCODE),
+    SSID varchar(5) references semsec(SSID),
+    TEST1 integer,
+    TEST2 integer,
+    TEST3 integer,
+    FINALIA integer
+);
+
+-- Table Insertions
+
+insert into student values('2KA13CS020','AKSHAY','BELAGAVI', 81122,'M');
+insert into student values('2KA13CS062','SANDHYA','BENGALURU', 29912,'F');
+insert into student values('2KA13CS091','TEESHA','BENGALURU', 12312,'F');
+insert into student values('2KA13CS066','SUPRIYA','MANGALURU', 81122,'F');
+
+insert into student values('2KA14CS010','ABHAY','BENGALURU', 11201,'M');
+insert into student values('2KA14CS032','BHASKAR','BENGALURU', 11099,'M');
+insert into student values('2KA14CS025','ASMI','BENGALURU', 37377,'F');
+
+insert into student values('2KA15CS011','AJAY','TUMKUR', 91341,'M');
+insert into student values('2KA15CS029','CHITRA','DAVANGERE', 72121,'F');
+insert into student values('2KA15CS045','JEEVA','BELLARY', 50121,'M');
+insert into student values('2KA15CS091','SANTOSH','MANGALURU', 32201,'M');
+
+insert into student values('2KA16CS045','ISMAIL','KALBURGI', 32201,'M');
+insert into student values('2KA16CS088','SAMEERA','SHIMOGA', 42212,'F');
+insert into student values('2KA16CS122','VINAYAKA','CHIKAMAGALUR', 80011,'M');
+
+
+insert into semsec values('CSE8A', 8,'A');
+insert into semsec values('CSE8B', 8,'B');
+insert into semsec values('CSE8C', 8,'C');
+
+insert into semsec values('CSE7A', 7,'A');
+insert into semsec values('CSE7B', 7,'B');
+insert into semsec values('CSE7C', 7,'C');
+
+insert into semsec values('CSE6A', 6,'A');
+insert into semsec values('CSE6B', 6,'B');
+insert into semsec values('CSE6C', 6,'C');
+
+insert into semsec values('CSE5A', 5,'A');
+insert into semsec values('CSE5B', 5,'B');
+insert into semsec values('CSE5C', 5,'C');
+
+insert into semsec values('CSE4A', 4,'A');
+insert into semsec values('CSE4B', 4,'B');
+insert into semsec values('CSE4C', 4,'C');
+
+insert into semsec values('CSE3A', 3,'A');
+insert into semsec values('CSE3B', 3,'B');
+insert into semsec values('CSE3C', 3,'C');
+
+insert into semsec values('CSE2A', 2,'A');
+insert into semsec values('CSE2B', 2,'B');
+insert into semsec values('CSE2C', 2,'C');
+
+insert into semsec values('CSE1A', 1,'A');
+insert into semsec values('CSE1B', 1,'B');
+insert into semsec values('CSE1C', 1,'C');
+
+
+insert into class values('2KA13CS020','CSE8A');
+insert into class values('2KA13CS062','CSE8A');
+insert into class values('2KA13CS066','CSE8B');
+insert into class values('2KA13CS091','CSE8C');
+
+insert into class values('2KA14CS010','CSE7A');
+insert into class values('2KA14CS025','CSE7A');
+insert into class values('2KA14CS032','CSE7A');
+
+insert into class values('2KA15CS011','CSE4A');
+insert into class values('2KA15CS029','CSE4A');
+insert into class values('2KA15CS045','CSE4B');
+insert into class values('2KA15CS091','CSE4C');
+
+insert into class values('2KA16CS045','CSE3A');
+insert into class values('2KA16CS088','CSE3B');
+insert into class values('2KA16CS122','CSE3C');
+
+
+insert into subject values('10CS81','ACA', 8, 4);
+insert into subject values('10CS82','SSM', 8, 4);
+insert into subject values('10CS83','NM', 8, 4);
+insert into subject values('10CS84','CC', 8, 4);
+insert into subject values('10CS85','PW', 8, 4);
+
+insert into subject values('10CS71','OOAD', 7, 4);
+insert into subject values('10CS72','ECS', 7, 4);
+insert into subject values('10CS73','PTW', 7, 4);
+insert into subject values('10CS74','DWDM', 7, 4);
+insert into subject values('10CS75','JAVA', 7, 4);
+insert into subject values('10CS76','SAN', 7, 4);
+
+insert into subject values('15CS51', 'ME', 5, 4);
+insert into subject values('15CS52','CN', 5, 4);
+insert into subject values('15CS53','DBMS', 5, 4);
+insert into subject values('15CS54','ATC', 5, 4);
+insert into subject values('15CS55','JAVA', 5, 3);
+insert into subject values('15CS56','AI', 5, 3);
+
+insert into subject values('15CS41','M4', 4, 4);
+insert into subject values('15CS42','SE', 4, 4);
+insert into subject values('15CS43','DAA', 4, 4);
+insert into subject values('15CS44','MPMC', 4, 4);
+insert into subject values('15CS45','OOC', 4, 3);
+insert into subject values('15CS46','DC', 4, 3);
+
+insert into subject values('15CS31','M3', 3, 4);
+insert into subject values('15CS33','DSA', 3, 4);
+insert into subject values('15CS32','ADE', 3, 4);
+insert into subject values('15CS34','CO', 3, 4);
+insert into subject values('15CS35','USP', 3, 3);
+insert into subject values('15CS36','DMS', 3, 3);
+
+
+insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS81','CSE8C', 15, 16, 18);
+insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS82','CSE8C', 12, 19, 14);
+insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS83','CSE8C', 19, 15, 20);
+insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS84','CSE8C', 20, 16, 19);
+insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS85','CSE8C', 15, 15, 12);
+
+-- Queries
+-- 1
+
+select S.*, SS.SEM, SS.SEC
+from student S, semsec SS, class C
+where S.USN = C.USN and SS.SSID = C.SSID
+and SS.SEM = 4 and SS.SEC='C';
+
+-- 2
+
+select SS.SEM, SS.SEC, S.GENDER, count(S.GENDER) as count
+from student S, semsec SS, class C
+where S.USN = C.USN and SS.SSID = C.SSID
+group by SS.SEM, SS.SEC, S.GENDER order by SEM;
+
+-- 3
+
+create view stu_test1_marks_view as
+select TEST1, SUBCODE FROM iamarks
+where USN = '2KA13CS091';
+select * from stu_test1_marks_view;
+
+-- 4
+
+update iamarks
+set FINALIA = ((TEST1+TEST2+TEST3) - (case
+when TEST1<TEST2 and TEST1<TEST3 then TEST1
+when TEST2<TEST1 and TEST2<TEST3 then TEST2
+else TEST3 end))/2;
+select * from iamarks;
+
+-- 5
+
+select S.USN , S.SNAME , IA.FINALIA , (case
+when IA.FINALIA between 17 and 20 then 'Outstanding'
+when IA.FINALIA between 12 and 16 then 'Average'
+else 'Weak' end) as cat
+from student S, iamarks IA, class C , semsec SS
+where S.USN = IA.USN and SS.SSID = IA.SSID and SS.Sem = 8
+and (SS.Sec = 'A' or SS.Sec = 'B' or SS.Sec = 'C');
+
+-- end of execution

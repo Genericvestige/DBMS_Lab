@@ -1,0 +1,108 @@
+-- Movie Database
+
+create database r3;
+use r3;
+
+-- Table Creations
+
+create table actor(
+    ACT_ID integer primary key,
+    ACT_NAME varchar(20),
+    ACT_GENDER char(1)
+);
+
+create table director(
+    DIR_ID integer primary key,
+    DIR_NAME varchar(20),
+    DIR_PHONE integer
+);
+
+create table movies(
+    MOV_ID integer primary key,
+    MOV_TITLE varchar(20),
+    MOV_YEAR integer,
+    MOV_LANG varchar(12),
+    DIR_ID integer references DIRECTOR (DIR_ID)
+);
+
+create table movie_cast(
+    ACT_ID integer references actor (ACT_ID),
+    MOV_ID integer references movies (MOV_ID),
+    ROLE varchar(10)
+);
+
+create table rating(
+    MOV_ID integer references movies (MOV_ID),
+    REV_STARS varchar(10)
+);
+
+-- Table Insertions
+
+insert into actor values(301,'ANUSHKA','F');
+insert into actor values(302,'PRABHAS','M');
+insert into actor values(303,'PUNITH','M');
+insert into actor values(304,'JERMY','M');
+
+insert into director values(60,'RAJAMOULI', 8751611001);
+insert into director values(61,'HITCHCOCK', 7766138911);
+insert into director values(62,'FARAN', 9986776531);
+insert into director values(63,'STEVEN SPIELBERG', 8989776530);
+
+insert into movies values(1001,'BAHUBALI-2', 2017, 'TELAGU', 60);
+insert into movies values(1002,'BAHUBALI-1', 2015, 'TELAGU', 60);
+insert into movies values(1003,'AKASH', 2008, 'KANNADA', 61);
+insert into movies values(1004,'WAR HORSE', 2011, 'ENGLISH', 63);
+
+insert into movie_cast values(301, 1002, 'HEROINE');
+insert into movie_cast values(301, 1001, 'HEROINE');
+insert into movie_cast values(303, 1003, 'HERO');
+insert into movie_cast values(303, 1002, 'GUEST');
+insert into movie_cast values(304, 1004, 'HERO');
+
+insert into rating values(1001,4);
+insert into rating values(1002,2);
+insert into rating values(1003,5);
+insert into rating values(1004,4);
+
+-- Queries
+-- 1
+
+select mov_title from movies
+where dir_id in(select dir_id
+from director where dir_name='Hitchcock');
+
+-- 2
+
+select mov_title
+from movies m, movie_cast mv
+where m.mov_id=mv.mov_id
+and act_id in(select act_id from movie_cast
+group by act_id having count(act_id)>1)
+group by mov_title having count(*)>1;
+
+-- 3
+
+select A.ACT_NAME, A.ACT_NAME, C.MOV_TITLE, C.MOV_YEAR
+from actor A, movie_cast B, movies C
+where A.ACT_ID=B.ACT_ID
+and B.MOV_ID=C.MOV_ID
+and C.MOV_YEAR not between 2000 and 2015;
+
+-- 4
+
+select MOV_TITLE, max(REV_STARS) from movies
+inner join rating using(MOV_ID)
+group by MOV_TITLE
+having max(REV_STARS)>0
+order by MOV_TITLE;
+
+-- 5
+
+update rating set REV_STARS=5
+where MOV_ID in(select MOV_ID from movies
+where DIR_ID in(select DIR_ID
+from director
+where DIR_NAME = 'STEVEN SPIELBERG'));
+select * from rating;
+
+-- end of execution
