@@ -1,7 +1,7 @@
 -- Library Database
 
-create database r1;
-use r1;
+create database library;
+use library;
 
 -- Table Creations
 
@@ -124,5 +124,3 @@ select B.BOOK_ID, B.TITLE, C.NO_OF_COPIES
 from book B, book_copies C, library_branch L
 where B.BOOK_ID=C.BOOK_ID AND C.BRANCH_ID=L.BRANCH_ID;
 select * from V_BOOK;
-
--- end of db
