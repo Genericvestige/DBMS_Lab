@@ -157,5 +157,3 @@ from employee
 where SALARY > 60000  and DNO in(select E.DNO
 from employee E group by E.DNO
 having count(*) > 5) group by DNO;
-
--- end of execution
