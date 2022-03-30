@@ -156,28 +156,30 @@ insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091'
 insert into iamarks(usn, subcode, ssid, test1, test2, test3) values('2KA13CS091','10CS85','CSE8C', 15, 15, 12);
 
 -- Queries
--- 1
+-- 1 List all the student details studying in fourth semester c section
 
 select S.*, SS.SEM, SS.SEC
 from student S, semsec SS, class C
 where S.USN = C.USN and SS.SSID = C.SSID
 and SS.SEM = 4 and SS.SEC='C';
 
--- 2
+-- 2 .Compute the total number of male and female students in each semester and in each 
+section.
 
 select SS.SEM, SS.SEC, S.GENDER, count(S.GENDER) as count
 from student S, semsec SS, class C
 where S.USN = C.USN and SS.SSID = C.SSID
 group by SS.SEM, SS.SEC, S.GENDER order by SEM;
 
--- 3
+-- 3 Create a view of Test1 marks of student usn 1b115cs101 in all subjects
 
 create view stu_test1_marks_view as
 select TEST1, SUBCODE FROM iamarks
 where USN = '2KA13CS091';
 select * from stu_test1_marks_view;
 
--- 4
+-- 4 Calculate the FinalIA (average of best two test marks) and update the corresponding 
+table for all students.
 
 update iamarks
 set FINALIA = ((TEST1+TEST2+TEST3) - (case
@@ -186,7 +188,11 @@ when TEST2<TEST1 and TEST2<TEST3 then TEST2
 else TEST3 end))/2;
 select * from iamarks;
 
--- 5
+-- 5 Categorize students based on the following criterion: 
+If FinalIA = 17 to 20 then CAT = outstanding
+If FinalIA = 12 to 16 then CAT = average
+If FinalIA<12 then CAT = weak
+Give these details only for 8th semester A, B, and C section students.
 
 select S.USN , S.SNAME , IA.FINALIA , (case
 when IA.FINALIA between 17 and 20 then 'Outstanding'
