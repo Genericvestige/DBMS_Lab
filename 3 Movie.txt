@@ -104,5 +104,3 @@ where DIR_ID in(select DIR_ID
 from director
 where DIR_NAME = 'STEVEN SPIELBERG'));
 select * from rating;
-
--- end of execution
